@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Character encoding charset="UTF-8"(Unicode Transformation Format)[commonly used character encoding on the web because of its flexibility and support for internationalization.]-->
+    <meta charset="UTF-8">
+    <!-- Ensures that webpages are displayed properly on diff devices and screen size [<meta> defines metadata about the document]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <!--Include external CSS file to html document (rel specifies the relationship between the current HTML document and the linked resource) (href specifies the url to the external CSS file)-->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<!--Creates a generic container with the class "card" applied to it. \-->
+<div class="card">
+    <div class="search">
+<!--input creates input fields such as text fields, checkboxes etc-->
+<!--type="text": This attribute specifies the type of input field to create. -->
+<!--type="text": placeholder="enter city name": This attribute provides a hint or placeholder text that is displayed in the input field when it's empty. -->
+<!--spellcheck="false": This attribute controls whether browser spell checking is enabled for the input field. etc-->
+        <input type="text" placeholder="enter city name" spellcheck="false">
+ <!--Display image as button-->   
+        <button><img src="images/search.png"></button>
+    </div>   
+    <div class="error">
+        <p>Invalid city name</p>
+    </div>
+    <!--Create weather container and include class name-->    
+    <div class="weather">
+         <!--Include image and class name for image-->   
+        <img src="images/rain.png" class="weather-icon">
+         <!--Create class for h1 and include text-->   
+        <h1 class="temp">22°c</h1>
+        <!--Create class for h2 and include text-->   
+        <h2 class="city">New York</h2>
+        <!--Create container for details and include class name-->   
+        <div class="details">
+            <!--Create container for colummn within details container-->   
+            <div class="col">
+                <!--Include image-->   
+                <img src="images/humidity.png">
+            <!--Create class for paragraph within column container in details container-->   
+                <div>
+                    <!--Create paragraph and class with some text-->   
+                    <p class="humidity">50%</p>
+                    <!--Create some more paragraph text-->   
+                    <p>Humidity</p>
+                </div>
+            </div>
+            <!--Create container for column with class-->   
+            <div class="col">
+                <!--Include image-->   
+                <img src="images/wind.png">
+                <div>
+                    <!--Create paragraph and class with some text-->   
+                    <p class="wind">15km/h</p>
+                    <!--Include some more paragraph text-->   
+                    <p>Wind speed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Used to embed JavaScript code within an HTML document-->
+<!--Define constant that holds API key for accessing weather-->
+<script>
+//Define constant that holds API key for accessing weather
+const apiKey="c81ca57d940959145c48fc7a13f44247";
+//Define constant that holds API Url of weathermap API
+const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+//select input elements with the class "search" and assign it to variables i.e searchBox, searchBtn, weatherIcon
+//document.querySelector() is a method that selects the first element within the document that matches a specified CSS selector such as tag/class/ID name
+//getElementById(): This method selects an element with a specific ID attribute.
+//Class selector e.g ".className, .search, etc")
+//ID selector e.g "#idname"
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
+// Define an asynchronous function called checkWeather to fetch weather data and pass city as parameter
+//Async functions return Promises and use the await keyword to pause execution until the operation is complete. They are commonly used for tasks such as fetching data from external sources.
+//Asyn function is a also called Non-blocking code. In a non-blocking environment, one operation does not halt the execution of other operations.
+// checkWeather is declared and assigned directly in the function definition.
+async function checkWeather(city){
+    //Make HTTP request to weather API using fecth() fucnction
+    //await is used to pause the execution of the function until the request is returned
+    //response is stored in response variable
+    //const is a constant
+    //${} is used to embed variable inside a string
+    //city is also fetched amognst apiurl and apikey
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}` );
+    //Extract the JSON data from the response using the .json() method provided by the fetch API.
+    //if response status is error/404 then display error message
+    if (response.status==404){
+        //show error message if error message is 404
+        document.querySelector(".error").style.display = "block";
+        //weather info is hidden/no info is displayed if response does not show 404 error
+        document.querySelector(".weather").style.display = "none";
+    }
+    else{
+        var data = await response.json();
+    //Dispalys weather data in console
+    //console.log(data);
+    
+//document.queryselector() selects HTML element with the class "city"
+//innerHTML is used to set the prpoerty of the elemnt to data.name from the weather API
+    document.querySelector(".city").innerHTML=data.name;
+    //selects temp class from HTML and sets property to the temp from the wearher API
+    //°c is concatenated with the value from the weather API
+    document.querySelector(".temp").innerHTML=Math.round(data.main.temp) + "°c";
+    //selects humididty from HTML and sets property to the humidity from the weather API
+    //% is concatenated with the value
+    //Math.round() is a function used to round the humidity value
+    document.querySelector(".humidity").innerHTML= Math.round(data.main.humidity) + "%";
+    //selects wind from HTML and sets property to the wind from the weather API
+    //km/hr is concatenated with the value of wind from the API
+    document.querySelector(".wind").innerHTML=data.wind.speed + " km/hr";
+//displays images from source file when clouds/clear/drizzle/mist is selected from weather API (based on conditional statements)
+    if (data.weather[0].main=="Clouds"){
+        weatherIcon.src = "images/clouds.png";
+    }
+    else if(data.weather[0].main=="Clear"){
+        weatherIcon.src = "images/clear.png";
+    }
+    else if(data.weather[0].main=="Rain"){
+        weatherIcon.src = "images/rain.png";
+    }
+    else if(data.weather[0].main=="Drizzle"){
+        weatherIcon.src = "images/drizzle.png";
+    }
+    else if(data.weather[0].main=="Mist"){
+        weatherIcon.src = "images/mist.png";
+    }
+    //Tho already styled in CSS, this ensures styling works within this block of code only
+    //displays weather info if response.status doesnt show 404 error
+    document.querySelector(".weather").style.display = "block";
+    //error info is hidden/no info is displayed if response does not show 404 error
+    document.querySelector(".error").style.display = "none";        
+    }
+    
+}
+
+//.addEventListener a.k.a Event handler method allows definition of function when a specified event occurs on the selected element which is searchBtn
+//"click" specifies the type of event to listen for && is used with event handler P.S It is also called DOM event type.
+//DOM Event type (Docuent Object Model): User actions that occur within the web browser such as user action e.g clicking, hovering, typing,page load, form submission
+//common DOM event types: "click", "mouseover", "submit"
+//`() => { ... }` a.k.a ES6 syntax a.k.a arrow function: Contains code that will be executed when "click" event occurs
+//function() can be used instead of ()=>{}
+//In js functions can be named or anonymous
+//Anonymous functions are functions that are defined without a name e.g function(){}
+searchBtn.addEventListener("click", ()=>{
+    checkWeather(searchBox.value);
+})
+//Calls the function which initiates process of fetching data from weather api
+
+</script>
+
+</body>
+</html>

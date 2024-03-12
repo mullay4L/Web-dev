@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!--create container with class name-->
+<div class="container">
+<!--create another container with class name-->
+    <div class="todo-app">
+<!--create header and include image source-->
+        <h2>To-Do List <img src="images/icon.png"></h2>
+        <!--create container with class name-->
+        <div class="row">
+            <!--create text input with ID and placeholder with text-->
+            <input type="text" id="input-box" placeholder="Add your text">
+            <!--add button with text-->
+            <!--add onclick function within-->
+            <button onclick="addTask()">Add</button>
+        </div> 
+        <!--defines an unordered list-->
+        <ul id="list-container">
+            <!--defines a list of items-->
+            <!--use class name for styling-->
+            <!--
+            <li class="checked">Task 1</li>
+            <li>Task 2</li>
+            <li>Task 3</li>
+            -->
+        </ul>  
+    </div>
+</div>
+<!--add JS script link-->
+<script src="index.js"></script>
+</body>
+</html>

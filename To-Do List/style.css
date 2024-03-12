@@ -1,0 +1,106 @@
+/*Apply styling to general HTML page*/
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', 'sans-serif';
+    box-sizing: border-box;
+}
+/*Apply styling to container class*/
+.container{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #3462bf, #4e085f);
+    padding: 10px;
+}
+
+/*Apply styling to class todo-app*/
+.todo-app{
+    width: 100%;
+    max-width: 540px;
+    background: #fff;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+}
+/*Apply styling to class h2 within todo-app class*/
+.todo-app h2{
+    color: #002765;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+/*Apply styling to img within h2 within todo-app class*/
+.todo-app h2 img{
+    width: 30px;
+    margin-left: 10px;
+}
+/*Apply styling to row class*/
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #edeef0;
+    border-radius: 30px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+}
+
+
+/*Using #input-box targets a specific input element with the ID*/
+/*Using .row input targets input elements with the class row. Useful in targeting class, if there'll be multiple inputs within diff classes*/
+/*Apply styling to input directly probably cuz there will be only 1 input form*/
+input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+}
+/*Apply styling to button directly*/
+button{
+    border: none;
+    outline: none;
+    padding: 16px 50px;
+    background: #ff5945;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+/*Apply styling to li within ul*/
+ul li{
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 8px 12px 50px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+/*
+The ::before and ::after pseudo-elements in CSS are used to insert 
+content before or after the content of an element 
+or to add decorative elements to webpage
+*/
+ul li::before{
+    /*sets the content of the pseudo-element to an empty string.*/
+    content: '';
+    /*It positions the pseudo-element absolutely within its closest positioned ancestor.*/
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-image: url(images/unchecked.png);
+    background-size: cover;
+    background-position: center;
+    top: 12px;
+    left: 8px;
+}
+/*Add styling to checked class in a list under ul.*/
+ul li.checked{
+    color: #555;
+    text-decoration: line-through;
+}
+/*Add styling before checked class in a list under ul.*/
+ul li.checked::before{
+    background-image: url(images/checked.png);
+}
